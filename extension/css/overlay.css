@@ -1,0 +1,295 @@
+/**
+ * EgoShield Overlay Styles
+ * Annotation styles for manipulation pattern highlights
+ */
+
+/* Container */
+.ego-container {
+  position: relative;
+  z-index: 2147483646;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Summary Badge */
+.ego-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  font-size: 13px;
+  max-width: 280px;
+}
+
+.ego-badge-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ego-badge-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-grow: 1;
+}
+
+.ego-badge-title {
+  font-weight: 600;
+  color: #333;
+  font-size: 12px;
+}
+
+.ego-badge-score {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.ego-badge-band {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.ego-badge-LOW .ego-badge-band {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.ego-badge-MEDIUM .ego-badge-band {
+  background: #fff8e1;
+  color: #f57f17;
+}
+
+.ego-badge-HIGH .ego-badge-band {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.ego-badge-CRITICAL .ego-badge-band {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.ego-badge-count {
+  font-size: 11px;
+  color: #666;
+}
+
+.ego-dismiss {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  margin-left: auto;
+}
+
+.ego-dismiss:hover {
+  color: #333;
+}
+
+/* Annotations */
+.ego-annotation {
+  position: relative;
+  display: inline;
+  cursor: help;
+}
+
+.ego-annotation:focus {
+  outline: 2px solid #2196F3;
+  outline-offset: 2px;
+}
+
+/* Tooltip */
+.ego-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  font-size: 13px;
+  line-height: 1.4;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  z-index: 2147483647;
+  pointer-events: none;
+}
+
+.ego-tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: white;
+}
+
+.ego-tooltip-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ego-tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.ego-tooltip-header strong {
+  color: #333;
+  font-size: 14px;
+}
+
+.ego-tooltip-severity {
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+}
+
+.ego-tooltip-detector {
+  font-size: 11px;
+  color: #888;
+  text-transform: capitalize;
+  margin-bottom: 8px;
+}
+
+.ego-tooltip-evidence {
+  background: #f8f9fa;
+  padding: 8px;
+  border-radius: 4px;
+  font-style: italic;
+  color: #555;
+  margin-bottom: 8px;
+  border-left: 3px solid #ddd;
+}
+
+.ego-tooltip-explanation {
+  color: #666;
+  font-size: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+
+/* Severity Colors */
+.ego-annotation[data-severity="critical"] {
+  background-color: rgba(244, 67, 54, 0.15);
+  border-bottom: 2px solid #f44336;
+}
+
+.ego-annotation[data-severity="high"] {
+  background-color: rgba(255, 152, 0, 0.15);
+  border-bottom: 2px solid #ff9800;
+}
+
+.ego-annotation[data-severity="medium"] {
+  background-color: rgba(255, 193, 7, 0.15);
+  border-bottom: 2px solid #ffc107;
+}
+
+.ego-annotation[data-severity="low"] {
+  background-color: rgba(76, 175, 80, 0.15);
+  border-bottom: 2px solid #4caf50;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .ego-badge {
+    position: fixed !important;
+    top: 10px !important;
+    right: 10px !important;
+    left: 10px !important;
+    max-width: none;
+  }
+
+  .ego-tooltip {
+    width: calc(100vw - 40px);
+    left: 10px;
+    transform: none;
+  }
+
+  .ego-tooltip::before {
+    left: auto;
+    right: 20px;
+  }
+}
+
+/* Animation for badge entrance */
+@keyframes ego-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ego-badge {
+  animation: ego-slide-in 0.3s ease-out;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .ego-badge {
+    background: #2d2d2d;
+    color: #fff;
+  }
+
+  .ego-badge-title,
+  .ego-badge-score {
+    color: #fff;
+  }
+
+  .ego-badge-count {
+    color: #aaa;
+  }
+
+  .ego-tooltip {
+    background: #2d2d2d;
+    color: #fff;
+  }
+
+  .ego-tooltip-header strong {
+    color: #fff;
+  }
+
+  .ego-tooltip-evidence {
+    background: #3d3d3d;
+    color: #ddd;
+    border-left-color: #555;
+  }
+
+  .ego-tooltip-explanation {
+    color: #aaa;
+    border-top-color: #444;
+  }
+
+  .ego-tooltip-severity {
+    background: #444;
+    color: #ddd;
+  }
+}

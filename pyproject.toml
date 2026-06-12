@@ -1,0 +1,114 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "egoshield"
+version = "3.0.0"
+description = "Local-first, privacy-preserving cognitive shield - protects against dark patterns, manipulation tactics, and social engineering"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "EgoShield Team", email = "team@egoshield.local"}
+]
+keywords = ["privacy", "security", "manipulation-detection", "browser-extension", "local-llm", "dark-patterns", "cognitive-shield"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: Internet :: WWW/HTTP :: Browsers",
+    "Topic :: Communications :: Chat :: Internet Relay Chat",
+]
+urls.Homepage = "https://github.com/knarayanareddy/egoshield"
+urls.Documentation = "https://github.com/knarayanareddy/egoshield/tree/main/docs"
+urls.Repository = "https://github.com/knarayanareddy/egoshield"
+urls."Issue Tracker" = "https://github.com/knarayanareddy/egoshield/issues"
+
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn>=0.27.0",
+    "pydantic>=2.5.0",
+    "httpx>=0.26.0",
+    "keyring>=23.13.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.0",
+    "mypy>=1.7.0",
+    "bandit>=1.7.0",
+    "tldextract>=5.1.0",
+]
+ollama = [
+    "ollama>=0.1.0",
+]
+
+[project.scripts]
+egoshield-daemon = "daemon.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["daemon*", "egoshield*"]
+
+[tool.setuptools.package-data]
+daemon = ["db/schema.sql"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py", "__init__.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short --strict-markers"
+markers = [
+    "slow: marks tests as slow (deselect with '-m not slow')",
+    "integration: marks tests as integration tests",
+    "e2e: marks tests as end-to-end tests",
+]
+
+[tool.coverage.run]
+source = ["daemon", "egoshield"]
+branch = true
+omit = ["tests/*", "venv/*", "*/site-packages/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
+show_missing = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM", "PGH"]
+ignore = ["E501", "B028"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+strict_optional = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["keyring.*", "ollama.*"]
+ignore_missing_imports = true
